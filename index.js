@@ -143,7 +143,9 @@ function encodeValue(quote, v, format, isArray) {
 			if (isArray) {
 				return `'${ESCAPE_STRING[format] ? ESCAPE_STRING[format](v, quote) : v}'`;
 			} else {
-				return ESCAPE_STRING[format] ? ESCAPE_STRING[format](v, quote) : v;
+				if (!!v) {
+					return ESCAPE_STRING[format] ? ESCAPE_STRING[format](v, quote) : v;
+				} else return format in ESCAPE_NULL ? ESCAPE_NULL[format] : v;
 			}
 		case 'number':
 			if (isNaN (v))
